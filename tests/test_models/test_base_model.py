@@ -3,6 +3,7 @@
 """
 
 import unittest
+from models.base_model import BaseModel
 
 
 class testBase(unittest.TestCase):
@@ -33,8 +34,8 @@ class testBase(unittest.TestCase):
     def test_to_dict(self):
         """ test dictionary rep """
         good_dict = {"id": x.id, "created_at": x.created_at.isoformat(),
-                "updated_at": x.updated_at.isoformat(),
-                "__class__": "BaseModel"}
+                     "updated_at": x.updated_at.isoformat(),
+                     "__class__": "BaseModel"}
         self.assertEqual(x.to_dict, good_dict)
 
     def test_str(self):
