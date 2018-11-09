@@ -44,3 +44,10 @@ class testBase(unittest.TestCase):
         x = BaseModel()
         good_str = "[BaseModel] ({}) {}".format(x.id, x.__dict__)
         self.assertEqual(str(x), good_str)
+
+    def test_kwargs(self):
+        """ test kwargs init """
+        x = BaseModel()
+        y = BaseModel(**x.to_dict())
+        self.assertEqual(x.to_dict(), y.to_dict())
+        self.assertNotEqual(x, y)

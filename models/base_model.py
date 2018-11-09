@@ -9,19 +9,27 @@ class BaseModel():
     """BaseModel class
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """BaseModel Initilization
         """
-        self.id = str(uuid.uuid4())
-        x = datetime.datetime.now()
-        self.created_at = x
-        self.updated_at = x
+        if kwargs:
+            for key, value in kwargs.items():
+                if key in ("updated_at", "created_at"):
+                    value = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                elif key is "__class__":
+                    value = eval(value)
+                setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            x = datetime.datetime.now()
+            self.created_at = x
+            self.updated_at = x
 
     def __str__(self):
         """BaseModel Stringification
         """
         return "[{}] ({}) {}".format(self.__class__.__name__, self.id,
-                                      self.__dict__)
+                                     self.__dict__)
 
     def save(self):
         """BaseModel update
@@ -32,7 +40,7 @@ class BaseModel():
         """BaseModel to_dict function
         """
         out = {attr.rsplit('__', 1)[-1]: value for attr, value in
-                self.__dict__.items()}
+               self.__dict__.items()}
         out['__class__'] = self.__class__.__name__
         out['created_at'] = self.created_at.isoformat()
         out['updated_at'] = self.updated_at.isoformat()
