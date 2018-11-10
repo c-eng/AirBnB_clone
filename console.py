@@ -2,6 +2,7 @@
 """Console module
 """
 import cmd
+from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 from models import storage
 import shlex
@@ -60,10 +61,41 @@ class HBNBCommand(cmd.Cmd):
                     new = temp[token[0] + "." + token[1]]
                     print(eval("{}(**new)".format(token[0])))
 
+    def do_destroy(self, arg):
+        """Deletes an instance based on the class name and id
+        """
+        if not arg:
+            print("** class name missing **")
+        else:
+            token = shlex.split(arg)
+            if token[0] not in HBNBCommand.class_list:
+                print("** class doesn't exist **")
+            elif len(token) < 2:
+                print("** instance id missing **")
+            else:
+                temp = storage.all()
+                if token[0] + "." + token[1] not in temp:
+                    print("** no instance found **")
+                else:
+                    del temp[token[0] + "." + token[1]]
+                    FileStorage._FileStorage__objects = temp
+                    storage.save()
 
-
-
-
+    def do_all(self, arg):
+        """Prints all string representation of all instances based or not on the
+        class name"""
+        temp = storage.all()
+        if not arg:
+            print([str(eval("{}(**{})".format(value["__class__"], value))) for
+                   key, value in temp.items()])
+        else:
+            token = shlex.split(arg)
+            if token[0] not in HBNBCommand.class_list:
+                print("** class doesn't exist ** ")
+            else:
+                print([str(eval("{}(**{})".format(value["__class__"], value)))
+                       for key, value in temp.items() if value['__class__'] ==
+                       token[0]])
 
 
 
