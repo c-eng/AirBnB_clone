@@ -19,7 +19,7 @@ class FileStorage():
     def new(self, obj):
         """Adds objects
         """
-        FileStorage.__objects[obj.__class__.__name__ + '.' + obj.id] = obj
+        FileStorage.__objects[obj.__class__.__name__ + '.' + obj.id] = obj.to_dict()
 
     def save(self):
         """Serializes objects
@@ -31,7 +31,7 @@ class FileStorage():
         """Deserializes objects
         """
         try:
-            with open(FileStorage.__file_path, 'w') as f:
+            with open(FileStorage.__file_path, 'r') as f:
                 FileStorage.__objects = json.load(f)
-        except(OSError(errno.ENOENT)):
+        except(OSError):
             pass

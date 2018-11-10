@@ -3,7 +3,7 @@
 """
 import uuid
 import datetime
-from __init__ import storage
+from models.__init__ import storage
 
 
 class BaseModel():
