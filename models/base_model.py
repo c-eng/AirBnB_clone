@@ -3,6 +3,7 @@
 """
 import uuid
 import datetime
+from __init__ import storage
 
 
 class BaseModel():
@@ -15,7 +16,8 @@ class BaseModel():
         if kwargs:
             for key, value in kwargs.items():
                 if key in ("updated_at", "created_at"):
-                    value = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                    value = datetime.datetime.strptime(value,
+                                                       "%Y-%m-%dT%H:%M:%S.%f")
                 elif key is "__class__":
                     value = eval(value)
                 setattr(self, key, value)
@@ -24,6 +26,7 @@ class BaseModel():
             x = datetime.datetime.now()
             self.created_at = x
             self.updated_at = x
+            storage.new(self)
 
     def __str__(self):
         """BaseModel Stringification
@@ -35,6 +38,7 @@ class BaseModel():
         """BaseModel update
         """
         self.updated_at = datetime.datetime.now()
+        storage.save()
 
     def to_dict(self):
         """BaseModel to_dict function
