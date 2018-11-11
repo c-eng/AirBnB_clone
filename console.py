@@ -13,7 +13,8 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = '(hbnb) '
-    class_list = ["BaseModel", "User"]
+    class_list = ["BaseModel", "User", "Place", "State", "City", "Amenity",
+                  "Review"]
 
     def do_quit(self, arg):
         """Quit console
@@ -105,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
         if len(token) < 1:
             print("** class name missing **")
         elif token[0] not in HBNBCommand.class_list:
-            print("** class doesn't exist ** ")
+            print("** class doesn't exist **")
         elif len(token) < 2:
             print("** instance id missing **")
         elif token[1] not in [x.split(".")[-1] for x in storage.all().keys()]:
