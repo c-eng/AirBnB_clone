@@ -13,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = '(hbnb) '
-    class_list = ["BaseModel"]
+    class_list = ["BaseModel", "User"]
 
     def do_quit(self, arg):
         """Quit console
@@ -98,6 +98,9 @@ class HBNBCommand(cmd.Cmd):
                        token[0]])
 
     def do_update(self, arg):
+        """Updates an instance based on the class name and id by adding or
+        updating attribute
+        """
         token = shlex.split(arg)
         if len(token) < 1:
             print("** class name missing **")
