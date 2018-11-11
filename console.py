@@ -97,6 +97,29 @@ class HBNBCommand(cmd.Cmd):
                        for key, value in temp.items() if value['__class__'] ==
                        token[0]])
 
+    def do_update(self, arg):
+        token = shlex.split(arg)
+        if len(token) < 1:
+            print("** class name missing **")
+        elif token[0] not in HBNBCommand.class_list:
+            print("** class doesn't exist ** ")
+        elif len(token) < 2:
+            print("** instance id missing **")
+        elif token[1] not in [x.split(".")[-1] for x in storage.all().keys()]:
+            print("** no instance found **")
+        elif len(token) < 3:
+            print("** attribute name missing **")
+        elif len(token) < 4:
+            print("** value missing **")
+        else:
+            temp = storage.all()
+            x = eval("{}(**{})".format(token[0], temp[token[0] + "." +
+                     token[1]]))
+            setattr(x, token[2], token[3])
+            temp[token[0] + "." + token[1]] = x.to_dict()
+            FileStorage._FileStorage__objects = temp
+            storage.save()
+
 
 
 if __name__ == '__main__':
