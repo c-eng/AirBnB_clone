@@ -1,9 +1,15 @@
 #!/usr/bin/python3
-"""Console module
+""" Console module
 """
 import cmd
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
+from models.city import City
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
+from models.place import Place
+from models.user import User
 from models import storage
 import shlex
 
@@ -13,8 +19,9 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = '(hbnb) '
-    class_list = ["BaseModel", "User", "Place", "State", "City", "Amenity",
-                  "Review"]
+    class_list = ["BaseModel"]
+    for x in BaseModel.__subclasses__():
+        class_list.append(x.__name__)
 
     def do_quit(self, arg):
         """Quit console
@@ -34,53 +41,28 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """ creates instance of a specifified class
         """
-        if not arg:
-            print("** class name missing **")
-        else:
-            try:
-                x = eval("{}()".format(arg))
-                print(x.id)
-            except(NameError):
-                print("** class doesn't exist **")
+        if self.validator(1, arg) is not None:
+            x = eval("{}()".format(arg))
+            print(x.id)
 
     def do_show(self, arg):
         """ Prints the string representation of an instance based on the
         class name and id """
-        if not arg:
-            print("** class name missing **")
-        else:
-            token = shlex.split(arg)
-            if token[0] not in HBNBCommand.class_list:
-                print("** class doesn't exist **")
-            elif len(token) < 2:
-                print("** instance id missing **")
-            else:
-                temp = storage.all()
-                if token[0] + "." + token[1] not in temp:
-                    print("** no instance found **")
-                else:
-                    new = temp[token[0] + "." + token[1]]
-                    print(eval("{}(**new)".format(token[0])))
+        token = self.validator(2, arg)
+        if token is not None:
+            temp = storage.all()
+            new = temp[token[0] + "." + token[1]]
+            print(eval("{}(**new)".format(token[0])))
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id
         """
-        if not arg:
-            print("** class name missing **")
-        else:
-            token = shlex.split(arg)
-            if token[0] not in HBNBCommand.class_list:
-                print("** class doesn't exist **")
-            elif len(token) < 2:
-                print("** instance id missing **")
-            else:
-                temp = storage.all()
-                if token[0] + "." + token[1] not in temp:
-                    print("** no instance found **")
-                else:
-                    del temp[token[0] + "." + token[1]]
-                    FileStorage._FileStorage__objects = temp
-                    storage.save()
+        token = self.validator(2, arg)
+        if token is not None:
+            temp = storage.all()
+            del temp[token[0] + "." + token[1]]
+            FileStorage._FileStorage__objects = temp
+            storage.save()
 
     def do_all(self, arg):
         """Prints all string representation of all instances based or not on the
@@ -90,10 +72,8 @@ class HBNBCommand(cmd.Cmd):
             print([str(eval("{}(**{})".format(value["__class__"], value))) for
                    key, value in temp.items()])
         else:
-            token = shlex.split(arg)
-            if token[0] not in HBNBCommand.class_list:
-                print("** class doesn't exist ** ")
-            else:
+            token = self.validator(1, arg)
+            if token is not None:
                 print([str(eval("{}(**{})".format(value["__class__"], value)))
                        for key, value in temp.items() if value['__class__'] ==
                        token[0]])
@@ -102,20 +82,8 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name and id by adding or
         updating attribute
         """
-        token = shlex.split(arg)
-        if len(token) < 1:
-            print("** class name missing **")
-        elif token[0] not in HBNBCommand.class_list:
-            print("** class doesn't exist **")
-        elif len(token) < 2:
-            print("** instance id missing **")
-        elif token[1] not in [x.split(".")[-1] for x in storage.all().keys()]:
-            print("** no instance found **")
-        elif len(token) < 3:
-            print("** attribute name missing **")
-        elif len(token) < 4:
-            print("** value missing **")
-        else:
+        token = self.validator(4, arg)
+        if token is not None:
             temp = storage.all()
             x = eval("{}(**{})".format(token[0], temp[token[0] + "." +
                      token[1]]))
@@ -123,6 +91,28 @@ class HBNBCommand(cmd.Cmd):
             temp[token[0] + "." + token[1]] = x.to_dict()
             FileStorage._FileStorage__objects = temp
             storage.save()
+
+    def validator(self, count, arg):
+        """ checks for good argument string
+        """
+        token = shlex.split(arg)
+        if count >= 1 and len(token) < 1:
+            print("** class name missing **")
+        elif count >= 1 and token[0] not in HBNBCommand.class_list:
+            print("** class doesn't exist **")
+        elif count >= 2 and len(token) < 2:
+            print("** instance id missing **")
+        elif count >= 2 and token[1] not in [x.split(".")[-1] for x in
+                                             storage.all().keys()]:
+            print("** no instance found **")
+        elif count >= 3 and len(token) < 3:
+            print("** attribute name missing **")
+        elif count >= 4 and len(token) < 4:
+            print("** value missing **")
+        else:
+            return token
+
+
 
 
 
