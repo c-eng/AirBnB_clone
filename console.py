@@ -13,12 +13,12 @@ from models.user import User
 from models import storage
 import shlex
 
-
 class HBNBCommand(cmd.Cmd):
     """HBNB Console Class
     """
 
     prompt = '(hbnb) '
+
     class_list = ["BaseModel"]
     for x in BaseModel.__subclasses__():
         class_list.append(x.__name__)
@@ -42,7 +42,7 @@ class HBNBCommand(cmd.Cmd):
         """ creates instance of a specifified class
         """
         if self.validator(1, arg) is not None:
-            x = eval("{}()".format(arg))
+            x = eval(arg)()
             print(x.id)
 
     def do_show(self, arg):
