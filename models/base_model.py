@@ -14,7 +14,12 @@ class BaseModel():
         """BaseModel Initilization
         """
         if kwargs:
+            if not all(key in list(kwargs.keys()) for key in
+                       ('created_at', 'updated_at', 'id')):
+                raise ValueError('Missing id, created_at and updated_at fields')
             for key, value in kwargs.items():
+                if key is 'id':
+                    uuid.UUID(value)
                 if key in ("updated_at", "created_at"):
                     value = datetime.datetime.strptime(value,
                                                        "%Y-%m-%dT%H:%M:%S.%f")
