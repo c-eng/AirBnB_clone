@@ -16,7 +16,7 @@ quit
 ```
 EOF
 ```
-exits console
+exits console  
 
 ### create
 ___
@@ -24,7 +24,7 @@ ___
 ```
 create User
 ```
-creates instance of User
+creates instance of User  
 
 ### show
 ___
@@ -32,7 +32,7 @@ ___
 ```
 show BaseModel 1234-1234-1234
 ```
-Prints the string representation of an instance based on the class name and id
+Prints the string representation of an instance based on the class name and id  
 
 ### destroy
 ___
@@ -40,7 +40,7 @@ ___
 ```
 destroy BaseModel 1234-1234-1234
 ```
-deletes specified instance
+deletes specified instance  
 
 ### all
 ___
@@ -51,7 +51,7 @@ all
 ```
 all BaseModel
 ```
-Prints string representation of all instances of a class if given, otherwise all instances of any class
+Prints string representation of all instances of a class if given, otherwise all instances of any class  
 
 ### update
 ___
@@ -59,7 +59,7 @@ ___
 ```
 update BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com"
 ```
-Updates or creates attribute of specific instance
+Updates or creates attribute of specific instance  
 
 ## Directory Contents
 |   ***File/Folder***    |  **Decription**                       |
