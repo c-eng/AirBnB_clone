@@ -9,7 +9,6 @@ from models import storage
 from models import __all__ as model_classes
 
 
-
 class HBNBCommand(cmd.Cmd):
     """HBNB Console Class
     """
@@ -17,6 +16,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     class_list = model_classes
+    method_list = {"all()": "do_all"}
 
     def do_quit(self, arg):
         """Quit console
@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        """ creates instance of a specifified class
+        """ creates instance of a specified class
         """
         if self.validator(1, arg) is not None:
             x = eval(arg)()
@@ -83,6 +83,18 @@ class HBNBCommand(cmd.Cmd):
             kwargs.update({token[2]: token[3]})
             x = eval("{}(**{})".format(token[0], kwargs))
             x.save()
+
+    def default(self, arg):
+        """Override default error message
+        """
+        token = arg.split('.')
+        if token[0] not in HBNBCommand.class_list or len(token) < 2:
+            print('*** Unknown syntax: {}'.format(arg))
+        elif token[1] not in HBNBCommand.method_list:
+            print('*** Unknown syntax: {}'.format(arg))
+        else:
+            eval('self.{}("{}")'.format(HBNBCommand.method_list[token[1]],
+                                      token[0]))
 
     def validator(self, count, arg):
         """ checks for good argument string
