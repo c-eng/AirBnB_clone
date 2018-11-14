@@ -17,7 +17,8 @@ class BaseModel():
             if not all(key in list(kwargs.keys()) for key in
                        ('created_at', 'updated_at', 'id')):
                 raise ValueError('Missing id, created_at, updated_at fields')
-            kwargs.pop("__class__")
+            if "__class__" in list(kwargs.keys()):
+                kwargs.pop("__class__")
             for key, value in kwargs.items():
                 if key is 'id':
                     uuid.UUID(value)
