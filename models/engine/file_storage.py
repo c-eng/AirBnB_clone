@@ -19,7 +19,8 @@ class FileStorage():
     def new(self, obj):
         """Adds objects
         """
-        FileStorage.__objects[obj.__class__.__name__ + '.' + obj.id] = obj.to_dict()
+        FileStorage.__objects[obj.__class__.__name__ + '.' +
+                              obj.id] = obj.to_dict()
 
     def save(self):
         """Serializes objects

@@ -36,6 +36,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if self.validator(1, arg) is not None:
             x = eval(arg)()
+            storage.save()
             print(x.id)
 
     def do_show(self, arg):
