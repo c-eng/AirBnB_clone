@@ -15,25 +15,29 @@ quit
 ```
 EOF
 ```
-exits console
+exits console  
+___
 ### create
 \<cmd\> \<class\>
 ```
 create User
 ```
-creates instance of User
+creates instance of User  
+___
 ### show
 \<cmd\> \<class\> \<id\>
 ```
 show BaseModel 1234-1234-1234
 ```
-Prints the string representation of an instance based on the class name and id
+Prints the string representation of an instance based on the class name and id  
+___
 ### destroy
 \<cmd\> \<class\> \<id\>
 ```
 destroy BaseModel 1234-1234-1234
 ```
-deletes specified instance
+deletes specified instance  
+___
 ### all
 \<cmd\> or \<cmd\> \<class\>
 ```
@@ -42,18 +46,22 @@ all
 ```
 all BaseModel
 ```
-Prints string representation of all instances of a class if given, otherwise all instances of any class
+Prints string representation of all instances of a class if given, otherwise all instances of any class  
+___
 ### update
 \<cmd\> \<class\> \<id\> \<attribute\> \<value\>
 ```
 update BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com"
 ```
-Updates or creates attribute of specific instance
+Updates or creates attribute of specific instance  
+___
 ## Directory Contents
-
 |   ***File/Folder***    |  **Decription**                       |
 |---------------|---------------------------------------|
 | `README.md` |  Read me file. |
+| `console.py`|  console |
+| models | models folder |
+| tests | tests folder |
 
 ### Authors
 *Brent Janski* - [Github](https://github.com/talktobrent/) || [Twitter](https://twitter.com/SWCOSNOW)  

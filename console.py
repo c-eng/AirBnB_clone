@@ -9,7 +9,6 @@ from models import storage
 from models import __all__ as model_classes
 
 
-
 class HBNBCommand(cmd.Cmd):
     """HBNB Console Class
     """
@@ -17,6 +16,8 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     class_list = model_classes
+    method_list = {"all()": "do_all",
+                   "count()": "do_count"}
 
     def do_quit(self, arg):
         """Quit console
@@ -35,13 +36,12 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        """ creates instance of a specifified class
+        """ creates instance of a specified class
         """
         if self.validator(1, arg) is not None:
             x = eval(arg)()
             storage.save()
             print(x.id)
-            storage.save()
 
     def do_show(self, arg):
         """ Prints the string representation of an instance based on the
@@ -83,6 +83,29 @@ class HBNBCommand(cmd.Cmd):
             kwargs.update({token[2]: token[3]})
             x = eval("{}(**{})".format(token[0], kwargs))
             x.save()
+
+    def do_count(self, arg):
+        """Prints count of all instances based or not on the class name
+        """
+        if not arg:
+            print(len(storage.all()))
+        else:
+            token = self.validator(1, arg)
+            if token is not None:
+                print(len([key for key, value in storage.all().items() if
+                           value['__class__'] == token[0]]))
+
+    def default(self, arg):
+        """Override default error message
+        """
+        token = arg.split('.')
+        if token[0] not in HBNBCommand.class_list or len(token) < 2:
+            print('*** Unknown syntax: {}'.format(arg))
+        elif token[1] not in HBNBCommand.method_list:
+            print('*** Unknown syntax: {}'.format(arg))
+        else:
+            eval('self.{}("{}")'.format(HBNBCommand.method_list[token[1]],
+                                        token[0]))
 
     def validator(self, count, arg):
         """ checks for good argument string
