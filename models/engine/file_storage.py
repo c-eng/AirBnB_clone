@@ -34,5 +34,5 @@ class FileStorage():
         try:
             with open(FileStorage.__file_path, 'r') as f:
                 FileStorage.__objects = json.load(f)
-        except(OSError):
+        except (OSError):
             pass
