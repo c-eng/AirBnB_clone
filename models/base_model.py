@@ -3,7 +3,7 @@
 """
 import uuid
 import datetime
-from models.__init__ import storage
+import models
 
 
 class BaseModel():
@@ -31,7 +31,7 @@ class BaseModel():
             x = datetime.datetime.now()
             self.created_at = x
             self.updated_at = x
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """BaseModel Stringification
@@ -43,7 +43,7 @@ class BaseModel():
         """BaseModel update
         """
         self.updated_at = datetime.datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """BaseModel to_dict function
