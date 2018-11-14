@@ -2,16 +2,11 @@
 """ Console module
 """
 import cmd
-from models.engine.file_storage import FileStorage
-from models.base_model import BaseModel
-from models.city import City
-from models.state import State
-from models.review import Review
-from models.amenity import Amenity
-from models.place import Place
-from models.user import User
-from models import storage
 import shlex
+from models.engine.file_storage import FileStorage
+from models import *
+from models import storage
+from models import __all__
 
 class HBNBCommand(cmd.Cmd):
     """HBNB Console Class
@@ -19,9 +14,7 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = '(hbnb) '
 
-    class_list = ["BaseModel"]
-    for x in BaseModel.__subclasses__():
-        class_list.append(x.__name__)
+    class_list = __all__
 
     def do_quit(self, arg):
         """Quit console
@@ -111,10 +104,6 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
         else:
             return token
-
-
-
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
