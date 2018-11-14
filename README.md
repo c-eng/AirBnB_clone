@@ -17,6 +17,7 @@ quit
 EOF
 ```
 exits console
+
 ### create
 ___
 \<cmd\> \<class\>
@@ -24,6 +25,7 @@ ___
 create User
 ```
 creates instance of User
+
 ### show
 ___
 \<cmd\> \<class\> \<id\>
@@ -31,6 +33,7 @@ ___
 show BaseModel 1234-1234-1234
 ```
 Prints the string representation of an instance based on the class name and id
+
 ### destroy
 ___
 \<cmd\> \<class\> \<id\>
@@ -38,6 +41,7 @@ ___
 destroy BaseModel 1234-1234-1234
 ```
 deletes specified instance
+
 ### all
 ___
 \<cmd\> or \<cmd\> \<class\>
@@ -48,6 +52,7 @@ all
 all BaseModel
 ```
 Prints string representation of all instances of a class if given, otherwise all instances of any class
+
 ### update
 ___
 \<cmd\> \<class\> \<id\> \<attribute\> \<value\>
@@ -55,9 +60,8 @@ ___
 update BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com"
 ```
 Updates or creates attribute of specific instance
-## Directory Contents
-___
 
+## Directory Contents
 |   ***File/Folder***    |  **Decription**                       |
 |---------------|---------------------------------------|
 | `README.md` |  Read me file. |
@@ -66,6 +70,5 @@ ___
 | tests | tests folder |
 
 ### Authors
-___
 *Brent Janski* - [Github](https://github.com/talktobrent/) || [Twitter](https://twitter.com/SWCOSNOW)  
 *Cameron Eng* - [Github](https://github.com/c_eng/) || [Twitter](https://twitter.com/c33Eng)
