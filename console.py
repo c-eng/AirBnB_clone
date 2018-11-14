@@ -8,6 +8,7 @@ from models import *
 from models import storage
 from models import __all__
 
+
 class HBNBCommand(cmd.Cmd):
     """HBNB Console Class
     """
