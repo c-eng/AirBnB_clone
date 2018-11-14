@@ -9,6 +9,7 @@ User, City, State, Review, Amenity, Place
 Object that serializes and deserialzes objects for storage in local JSON file
 ## HBNB Console usage:
 ### quit
+___
 ```
 quit
 ```
@@ -17,24 +18,28 @@ EOF
 ```
 exits console
 ### create
+___
 \<cmd\> \<class\>
 ```
 create User
 ```
 creates instance of User
 ### show
+___
 \<cmd\> \<class\> \<id\>
 ```
 show BaseModel 1234-1234-1234
 ```
 Prints the string representation of an instance based on the class name and id
 ### destroy
+___
 \<cmd\> \<class\> \<id\>
 ```
 destroy BaseModel 1234-1234-1234
 ```
 deletes specified instance
 ### all
+___
 \<cmd\> or \<cmd\> \<class\>
 ```
 all
@@ -44,20 +49,23 @@ all BaseModel
 ```
 Prints string representation of all instances of a class if given, otherwise all instances of any class
 ### update
+___
 \<cmd\> \<class\> \<id\> \<attribute\> \<value\>
 ```
 update BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com"
 ```
 Updates or creates attribute of specific instance
 ## Directory Contents
+___
 
 |   ***File/Folder***    |  **Decription**                       |
 |---------------|---------------------------------------|
 | `README.md` |  Read me file. |
 | `console.py`|  console |
-| `models' | models folder |
-| `tests' | tests folder |
+| models | models folder |
+| tests | tests folder |
 
 ### Authors
+___
 *Brent Janski* - [Github](https://github.com/talktobrent/) || [Twitter](https://twitter.com/SWCOSNOW)  
 *Cameron Eng* - [Github](https://github.com/c_eng/) || [Twitter](https://twitter.com/c33Eng)
