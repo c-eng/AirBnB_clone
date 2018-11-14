@@ -17,25 +17,25 @@ EOF
 ```
 exits console
 ### create
-<cmd> <class>
+\<cmd\> \<class\>
 ```
 create User
 ```
 creates instance of User
 ### show
-<cmd> <class> <id>
+\<cmd\> \<class\> \<id\>
 ```
 show BaseModel 1234-1234-1234
 ```
 Prints the string representation of an instance based on the class name and id
 ### destroy
-<cmd> <class> <id>
+\<cmd\> \<class\> \<id\>
 ```
 destroy BaseModel 1234-1234-1234
 ```
 deletes specified instance
 ### all
-<cmd> or <cmd> <class>
+\<cmd\> or \<cmd\> \<class\>
 ```
 all
 ```
@@ -44,7 +44,7 @@ all BaseModel
 ```
 Prints string representation of all instances of a class if given, otherwise all instances of any class
 ### update
-<cmd> <class> <id> <attribute> <value>
+\<cmd\> \<class\> \<id\> \<attribute\> \<value\>
 ```
 update BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com"
 ```
