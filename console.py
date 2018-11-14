@@ -105,7 +105,7 @@ class HBNBCommand(cmd.Cmd):
             print('*** Unknown syntax: {}'.format(arg))
         else:
             eval('self.{}("{}")'.format(HBNBCommand.method_list[token[1]],
-                                      token[0]))
+                                        token[0]))
 
     def validator(self, count, arg):
         """ checks for good argument string
