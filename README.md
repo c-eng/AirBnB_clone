@@ -54,6 +54,9 @@ Updates or creates attribute of specific instance
 |   ***File/Folder***    |  **Decription**                       |
 |---------------|---------------------------------------|
 | `README.md` |  Read me file. |
+| `console.py`|  console |
+| `models' | models folder |
+| `tests' | tests folder |
 
 ### Authors
 *Brent Janski* - [Github](https://github.com/talktobrent/) || [Twitter](https://twitter.com/SWCOSNOW)  
