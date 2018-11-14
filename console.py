@@ -92,8 +92,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif count >= 2 and len(token) < 2:
             print("** instance id missing **")
-        elif count >= 2 and token[1] not in [x.split(".")[-1] for x in
-                                             storage.all().keys()]:
+        elif count >= 2 and (token[0] + "." + token[1] not in
+                             storage.all().keys()):
             print("** no instance found **")
         elif count >= 3 and len(token) < 3:
             print("** attribute name missing **")
@@ -101,6 +101,7 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
         else:
             return token
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
