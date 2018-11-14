@@ -16,7 +16,8 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     class_list = model_classes
-    method_list = {"all()": "do_all"}
+    method_list = {"all()": "do_all",
+                   "count()": "do_count"}
 
     def do_quit(self, arg):
         """Quit console
@@ -83,6 +84,17 @@ class HBNBCommand(cmd.Cmd):
             kwargs.update({token[2]: token[3]})
             x = eval("{}(**{})".format(token[0], kwargs))
             x.save()
+
+    def do_count(self, arg):
+        """Prints count of all instances based or not on the class name
+        """
+        if not arg:
+            print(len(storage.all()))
+        else:
+            token = self.validator(1, arg)
+            if token is not None:
+                print(len([key for key, value in storage.all().items() if
+                           value['__class__'] == token[0]]))
 
     def default(self, arg):
         """Override default error message
