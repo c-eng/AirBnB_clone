@@ -17,20 +17,18 @@ class BaseModel():
             if not all(key in list(kwargs.keys()) for key in
                        ('created_at', 'updated_at', 'id')):
                 raise ValueError('Missing id, created_at, updated_at fields')
+            kwargs.pop("__class__")
             for key, value in kwargs.items():
                 if key is 'id':
                     uuid.UUID(value)
                 if key in ("updated_at", "created_at"):
                     value = datetime.datetime.strptime(value,
                                                        "%Y-%m-%dT%H:%M:%S.%f")
-                if key is "__class__":
-                    value = type(self)
                 setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
-            x = datetime.datetime.now()
-            self.created_at = x
-            self.updated_at = x
+            self.created_at = datetime.datetime.now()
+            self.updated_at = self.created_at
             models.storage.new(self)
 
     def __str__(self):
@@ -43,6 +41,7 @@ class BaseModel():
         """BaseModel update
         """
         self.updated_at = datetime.datetime.now()
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
@@ -50,7 +49,7 @@ class BaseModel():
         """
         out = {attr.rsplit('__', 1)[-1]: value for attr, value in
                self.__dict__.items()}
-        out['__class__'] = self.__class__.__name__
-        out['created_at'] = self.created_at.isoformat()
-        out['updated_at'] = self.updated_at.isoformat()
+        out.update({'__class__': self.__class__.__name__, 'created_at':
+                    self.created_at.isoformat(), 'updated_at':
+                    self.updated_at.isoformat()})
         return out
