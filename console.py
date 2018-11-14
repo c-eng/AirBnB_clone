@@ -9,6 +9,7 @@ from models import storage
 from models import __all__ as model_classes
 
 
+
 class HBNBCommand(cmd.Cmd):
     """HBNB Console Class
     """
@@ -38,6 +39,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if self.validator(1, arg) is not None:
             x = eval(arg)()
+            storage.save()
             print(x.id)
             storage.save()
 
