@@ -6,7 +6,8 @@ import shlex
 from models.engine.file_storage import FileStorage
 from models import *
 from models import storage
-from models import __all__
+from models import __all__ as model_classes
+
 
 
 class HBNBCommand(cmd.Cmd):
@@ -15,7 +16,7 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = '(hbnb) '
 
-    class_list = __all__
+    class_list = model_classes
 
     def do_quit(self, arg):
         """Quit console
@@ -25,6 +26,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, arg):
         """Alternative quit console
         """
+        print()
         return True
 
     def emptyline(self):
@@ -39,14 +41,14 @@ class HBNBCommand(cmd.Cmd):
             x = eval(arg)()
             storage.save()
             print(x.id)
+            storage.save()
 
     def do_show(self, arg):
         """ Prints the string representation of an instance based on the
         class name and id """
         token = self.validator(2, arg)
         if token is not None:
-            temp = storage.all()
-            new = temp[token[0] + "." + token[1]]
+            new = storage.all().get(token[0] + "." + token[1])
             print(eval("{}(**new)".format(token[0])))
 
     def do_destroy(self, arg):
@@ -54,24 +56,21 @@ class HBNBCommand(cmd.Cmd):
         """
         token = self.validator(2, arg)
         if token is not None:
-            temp = storage.all()
-            del temp[token[0] + "." + token[1]]
-            FileStorage._FileStorage__objects = temp
+            storage.all().pop(token[0] + "." + token[1])
             storage.save()
 
     def do_all(self, arg):
         """Prints all string representation of all instances based or not on the
         class name"""
-        temp = storage.all()
         if not arg:
             print([str(eval("{}(**{})".format(value["__class__"], value))) for
-                   key, value in temp.items()])
+                   key, value in storage.all().items()])
         else:
             token = self.validator(1, arg)
             if token is not None:
                 print([str(eval("{}(**{})".format(value["__class__"], value)))
-                       for key, value in temp.items() if value['__class__'] ==
-                       token[0]])
+                       for key, value in storage.all().items() if
+                       value['__class__'] == token[0]])
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id by adding or
@@ -80,12 +79,10 @@ class HBNBCommand(cmd.Cmd):
         token = self.validator(4, arg)
         if token is not None:
             temp = storage.all()
-            x = eval("{}(**{})".format(token[0], temp[token[0] + "." +
-                     token[1]]))
-            setattr(x, token[2], token[3])
-            temp[token[0] + "." + token[1]] = x.to_dict()
-            FileStorage._FileStorage__objects = temp
-            storage.save()
+            kwargs = temp[token[0] + "." + token[1]]
+            kwargs.update({token[2]: token[3]})
+            x = eval("{}(**{})".format(token[0], kwargs))
+            x.save()
 
     def validator(self, count, arg):
         """ checks for good argument string
@@ -97,8 +94,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif count >= 2 and len(token) < 2:
             print("** instance id missing **")
-        elif count >= 2 and token[1] not in [x.split(".")[-1] for x in
-                                             storage.all().keys()]:
+        elif count >= 2 and (token[0] + "." + token[1] not in
+                             storage.all().keys()):
             print("** no instance found **")
         elif count >= 3 and len(token) < 3:
             print("** attribute name missing **")
@@ -106,6 +103,7 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
         else:
             return token
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
