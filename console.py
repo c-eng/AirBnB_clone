@@ -79,7 +79,8 @@ class HBNBCommand(cmd.Cmd):
         if token is not None:
             temp = storage.all()
             kwargs = temp[token[0] + "." + token[1]]
-            kwargs.update({token[2]: token[3]})
+            for x in range(2, len(token), 2):
+                kwargs.update({token[x]: token[x + 1]})
             x = eval("{}(**{})".format(token[0], kwargs))
             x.save()
 
@@ -126,7 +127,7 @@ class HBNBCommand(cmd.Cmd):
                     arg_list.append(temp[last:index])
                     last = index + 1
                 index += 1
-            token.extend([x.strip() for x in arg_list if x])
+            token.extend([x.strip() for x in arg_list])
             self.onecmd(" ".join(token))
 
     def validator(self, count, arg):
@@ -145,6 +146,8 @@ class HBNBCommand(cmd.Cmd):
         elif count >= 3 and len(token) < 3:
             print("** attribute name missing **")
         elif count >= 4 and len(token) < 4:
+            print("** value missing **")
+        elif count >= 4 and len(token) % 2 != 0:
             print("** value missing **")
         else:
             return token
