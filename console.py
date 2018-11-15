@@ -16,8 +16,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     class_list = model_classes
-    method_list = {"all()": "do_all",
-                   "count()": "do_count"}
+    method_list = ["all", "count", "create", "update", "show", "destroy"]
 
     def do_quit(self, arg):
         """Quit console
@@ -96,16 +95,39 @@ class HBNBCommand(cmd.Cmd):
                            value['__class__'] == token[0]]))
 
     def default(self, arg):
-        """Override default error message
+        """Override default error message, and runs alternatie syntax if given
         """
-        token = arg.split('.')
-        if token[0] not in HBNBCommand.class_list or len(token) < 2:
+        temp_list = arg.rsplit("(")
+        token = temp_list[0].split(".")
+        if arg.strip()[-1] != ')' or len(temp_list) < 2:
+            print('*** Unknown syntax: {}'.format(arg))
+        elif token[0] not in HBNBCommand.class_list or len(token) < 2:
             print('*** Unknown syntax: {}'.format(arg))
         elif token[1] not in HBNBCommand.method_list:
             print('*** Unknown syntax: {}'.format(arg))
         else:
-            eval('self.{}("{}")'.format(HBNBCommand.method_list[token[1]],
-                                        token[0]))
+            token.reverse()
+            temp = temp_list[1]
+            last = 0
+            index = 0
+            arg_list = []
+            while index < len(temp):
+                if temp[index] is '{':
+                    last = index + 1
+                if temp[index] is '"':
+                    index += 1
+                    while (temp[index] != '"'):
+                        index += 1
+                if temp[index] is "'":
+                    index += 1
+                    while (temp[index] != "'"):
+                        index += 1
+                if temp[index] in (',', ':', '}', ')'):
+                    arg_list.append(temp[last:index])
+                    last = index + 1
+                index += 1
+            token.extend([x.strip() for x in arg_list if x])
+            self.onecmd(" ".join(token))
 
     def validator(self, count, arg):
         """ checks for good argument string
