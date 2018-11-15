@@ -97,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
     def default(self, arg):
         """Override default error message, and runs alternatie syntax if given
         """
-        temp_list = arg.rsplit("(")
+        temp_list = arg.split("(", 1)
         token = temp_list[0].split(".")
         if arg.strip()[-1] != ')' or len(temp_list) < 2:
             print('*** Unknown syntax: {}'.format(arg))
@@ -122,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
                     index += 1
                     while (temp[index] != "'"):
                         index += 1
-                if temp[index] in (',', ':', '}', ')'):
+                if temp[index] in (',', ':', '}') or index == len(temp) - 1:
                     arg_list.append(temp[last:index])
                     last = index + 1
                 index += 1
