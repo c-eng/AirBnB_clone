@@ -4,6 +4,7 @@
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
+	min-width: 600px;
 }
 
 .filters h3 {
@@ -49,6 +50,7 @@ button:hover {
 	height: 100%;
 	width: 25%;
 	position: relative;
+	min-width: 200px;
 }
 
 
